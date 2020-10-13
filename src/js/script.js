@@ -228,19 +228,20 @@
           // console.log(optionImages);
 
           // Add to or remove from image the acvtive class
-          for (let optionImage of optionImages) {
-            if (optionSelected) {
-              if(!thisProduct.params[paramId]) {
-                optionImage.classList.add('active');
-
-                // Add product oprions to product description in cart
-                thisProduct.params[paramId] = {
-                  label: param.label,
-                  options: {},
-                };
-              }
-              thisProduct.params[paramId].options[optionId] = option.label;
-            } else {
+          if (optionSelected) {
+            if(!thisProduct.params[paramId]) {
+              thisProduct.params[paramId] = {
+                label: param.label,
+                options: {},
+              };
+            }
+            thisProduct.params[paramId].options[optionId] = option.label;
+            for (let optionImage of optionImages) {
+              optionImage.classList.add('active');
+            }
+          } 
+          else {
+            for (let optionImage of optionImages) {
               optionImage.classList.remove('active');
             }
           }
