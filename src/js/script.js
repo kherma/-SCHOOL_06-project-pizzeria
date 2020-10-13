@@ -81,6 +81,7 @@
       // Add element to menu
       menuContainer.appendChild(thisProduct.element);
     }
+
     getElements(){
       const thisProduct = this;
     
@@ -119,77 +120,76 @@
           
           }/* END: if the active product isn't the element of thisProduct */
         }/* END LOOP: for each active product */ 
-      }/* END: click event listener to trigger */
-      );}
+      });/* END: click event listener to trigger */
+    }
 
-      initOrderForm () {
-        const thisProduct = this;
-        console.log("initOrderForm: ", thisProduct);
-        thisProduct.form.addEventListener('submit', function(event){
-          event.preventDefault();
-          thisProduct.processOrder();
-        });
+    initOrderForm () {
+      const thisProduct = this;
+      console.log('initOrderForm: ', thisProduct);
+      thisProduct.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
         
-        for(let input of thisProduct.formInputs){
-          input.addEventListener('change', function(){
-            thisProduct.processOrder();
-          });
-        }
-        
-        thisProduct.cartButton.addEventListener('click', function(event){
-          event.preventDefault();
+      for(let input of thisProduct.formInputs){
+        input.addEventListener('change', function(){
           thisProduct.processOrder();
         });
       }
+        
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+    }
       
-      processOrder () {
-        const thisProduct = this;
-        console.log("processOrder: ", thisProduct);
-        
-        /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
-        const formData = utils.serializeFormToObject(thisProduct.form);
-        console.log("formData: ", formData);
+    processOrder () {
+      const thisProduct = this;
+      console.log('processOrder: ', thisProduct);
+      
+      /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log('formData: ', formData);
 
 
-        /* set variable price to equal thisProduct.data.price */
-        let price = thisProduct.data.price;
-        
-        /* START LOOP: for each paramId in thisProduct.data.params */
-        for (let paramId in thisProduct.data.params) {
+      /* set variable price to equal thisProduct.data.price */
+      let price = thisProduct.data.price;
+      
+      /* START LOOP: for each paramId in thisProduct.data.params */
+      for (let paramId in thisProduct.data.params) {
 
-          /* save the element in thisProduct.data.params with key paramId as const param */
-          const parm = thisProduct.data.params[paramId];
+        /* save the element in thisProduct.data.params with key paramId as const param */
+        const parm = thisProduct.data.params[paramId];
 
-          /* START LOOP: for each optionId in param.options */
-          for (let optionId in parm.options){
+        /* START LOOP: for each optionId in param.options */
+        for (let optionId in parm.options){
 
-            /* save the element in param.options with key optionId as const option */
-            const option = parm.options[optionId];
+          /* save the element in param.options with key optionId as const option */
+          const option = parm.options[optionId];
+          
+          /* Check if formData[parmId] exist and if the aray include the key equal to optionId */
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+
+          /* START IF: if option is selected and option is not default */
+          if (optionSelected && !option.default) {
+
+            /* add price of option to variable price */
+            price +=  option.price;
+          } /* END IF: if option is selected and option is not default */
+
+          /* START ELSE IF: if option is not selected and option is default */
+          else if(!optionSelected && option.default) {
             
-            /* Check if formData[parmId] exist and if the aray include the key equal to optionId */
-            const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+            /* deduct price of option from price */
+            price -= option.price;
 
-            /* START IF: if option is selected and option is not default */
-            if (optionSelected && !option.default) {
+          } /* END ELSE IF: if option is not selected and option is default */          
+        } /* END LOOP: for each optionId in param.options */
+      } /* END LOOP: for each paramId in thisProduct.data.params */
 
-              /* add price of option to variable price */
-              price +=  option.price;
-            } /* END IF: if option is selected and option is not default */
-
-            /* START ELSE IF: if option is not selected and option is default */
-            else if(!optionSelected && option.default) {
-              
-              /* deduct price of option from price */
-              price -= option.price;
-
-            } /* END ELSE IF: if option is not selected and option is default */          
-          } /* END LOOP: for each optionId in param.options */
-        } /* END LOOP: for each paramId in thisProduct.data.params */
-
-        /* set the contents of thisProduct.priceElem to be the value of variable price */
-        thisProduct.priceElem.innerHTML = price;
-
-      }
+      /* set the contents of thisProduct.priceElem to be sthe value of variable price */
+      thisProduct.priceElem.innerHTML = price;
+    }
   }
 
   const app = {
