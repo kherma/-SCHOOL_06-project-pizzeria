@@ -1,14 +1,12 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars 
 
-// const { utils } = require("stylelint");
-
 {
   'use strict';
 
   const select = {
     templateOf: {
       menuProduct: '#template-menu-product',
-      cartProduct: '#template-cart-product', // CODE ADDED
+      cartProduct: '#template-cart-product', 
     },
     containerOf: {
       menu: '#product-list',
@@ -29,12 +27,12 @@
     },
     widgets: {
       amount: {
-        input: 'input.amount', // CODE CHANGED
+        input: 'input.amount', 
         linkDecrease: 'a[href="#less"]',
         linkIncrease: 'a[href="#more"]',
       },
     },
-    // CODE ADDED START
+    
     cart: {
       productList: '.cart__order-summary',
       toggleTrigger: '.cart__summary',
@@ -53,7 +51,7 @@
       edit: '[href="#edit"]',
       remove: '[href="#remove"]',
     },
-    // CODE ADDED END
+    
   };
   
   const classNames = {
@@ -73,19 +71,19 @@
       defaultValue: 1,
       defaultMin: 1,
       defaultMax: 9,
-    }, // CODE CHANGED
-    // CODE ADDED START
+    }, 
+
     cart: {
       defaultDeliveryFee: 20,
     },
-    // CODE ADDED END
+    
   };
   
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
-    // CODE ADDED START
+    
     cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
-    // CODE ADDED END
+    
   };
 
   class Product {
@@ -101,7 +99,7 @@
       thisProduct.processOrder();
       // console.log('new Product:', thisProduct);
     }
-    renderInMenu () {
+    renderInMenu() {
       const thisProduct = this;
       
       // Generate HTML based on template
@@ -127,7 +125,6 @@
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
       thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
-
     }
 
     initAccordion(){
@@ -177,6 +174,7 @@
         
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
+        thisProduct.addToCart();
         thisProduct.processOrder();
       });
     }
@@ -189,6 +187,7 @@
       const formData = utils.serializeFormToObject(thisProduct.form);
       // console.log('formData: ', formData);
 
+      thisProduct.params = {};
 
       /* set variable price to equal thisProduct.data.price */
       let price = thisProduct.data.price;
@@ -197,13 +196,13 @@
       for (let paramId in thisProduct.data.params) {
 
         /* save the element in thisProduct.data.params with key paramId as const param */
-        const parm = thisProduct.data.params[paramId];
+        const param = thisProduct.data.params[paramId];
 
         /* START LOOP: for each optionId in param.options */
-        for (let optionId in parm.options){
+        for (let optionId in param.options){
 
           /* save the element in param.options with key optionId as const option */
-          const option = parm.options[optionId];
+          const option = param.options[optionId];
           
           /* Check if formData[parmId] exist and if the aray include the key equal to optionId */
           const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
@@ -231,7 +230,16 @@
           // Add to or remove from image the acvtive class
           for (let optionImage of optionImages) {
             if (optionSelected) {
-              optionImage.classList.add('active');
+              if(!thisProduct.params[paramId]) {
+                optionImage.classList.add('active');
+
+                // Add product oprions to product description in cart
+                thisProduct.params[paramId] = {
+                  label: param.label,
+                  options: {},
+                };
+              }
+              thisProduct.params[paramId].options[optionId] = option.label;
             } else {
               optionImage.classList.remove('active');
             }
@@ -239,10 +247,12 @@
         } /* END LOOP: for each optionId in param.options */
       } /* END LOOP: for each paramId in thisProduct.data.params */
 
-      // Module 8.7 Modyfied
-      price *= thisProduct.amountWidget.value;
-      /* set the contents of thisProduct.priceElem to be sthe value of variable price */
-      thisProduct.priceElem.innerHTML = price;
+      //  multiply price by amount
+      thisProduct.priceSingle = price;
+      thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
+
+      /* set the contents of thisProduct.priceElem to be the value of variable price */
+      thisProduct.priceElem.innerHTML = thisProduct.price;
     }
 
     initAmountWidget () {
@@ -251,6 +261,15 @@
       thisProduct.amountWidgetElem.addEventListener('updated', function() {
         thisProduct.processOrder();
       });
+    }
+
+    addToCart() {
+      const thisProduct = this;
+
+      thisProduct.name = thisProduct.data.name;
+      thisProduct.amount = thisProduct.amountWidget.value;
+
+      app.cart.add(thisProduct);
     }
   }
 
@@ -322,7 +341,7 @@
       thisCart.products = [];
 
       thisCart.getElements(element);
-      thisCart.initActions();
+      thisCart.initActions(element);
 
       console.log('new Cart', thisCart);
     }
@@ -335,14 +354,31 @@
       thisCart.dom.wrapper = element;
 
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+
+      thisCart.dom.productList = document.querySelector(select.cart.productList);
     }
 
     initActions() {
       const thisCart = this;
 
-      thisCart.dom.toggleTrigger.addEventListener('click', function(){
+      thisCart.dom.toggleTrigger.addEventListener('click', function() {
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
+    }
+
+    add(menuProduct) {
+      const thisCart = this;
+
+      // Generate HTML based on template
+      const generatedHTML = templates.cartProduct(menuProduct);
+
+      // Create element using utils.createElementFromHTML
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+
+      //  add DOM elements to thisCar.dom.productList
+      thisCart.dom.productList.appendChild(generatedDOM);
+
+      console.log('adding product', menuProduct); 
     }
   }
 
