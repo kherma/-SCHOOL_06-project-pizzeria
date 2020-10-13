@@ -90,6 +90,8 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+
     }
 
     initAccordion(){
@@ -175,6 +177,7 @@
 
             /* add price of option to variable price */
             price +=  option.price;
+
           } /* END IF: if option is selected and option is not default */
 
           /* START ELSE IF: if option is not selected and option is default */
@@ -183,7 +186,20 @@
             /* deduct price of option from price */
             price -= option.price;
 
-          } /* END ELSE IF: if option is not selected and option is default */          
+          } /* END ELSE IF: if option is not selected and option is default */
+
+          // Module 8.6, Find images 
+          const optionImages = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId);
+          console.log(optionImages);
+
+          // Add to or remove from image the acvtive class
+          for (let optionImage of optionImages) {
+            if (optionSelected) {
+              optionImage.classList.add('active');
+            } else {
+              optionImage.classList.remove('active');
+            }
+          }
         } /* END LOOP: for each optionId in param.options */
       } /* END LOOP: for each paramId in thisProduct.data.params */
 
