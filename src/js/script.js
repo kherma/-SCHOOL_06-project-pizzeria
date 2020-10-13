@@ -99,7 +99,7 @@
       thisProduct.initOrderForm();
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
-      console.log('new Product:', thisProduct);
+      // console.log('new Product:', thisProduct);
     }
     renderInMenu () {
       const thisProduct = this;
@@ -263,8 +263,8 @@
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions();
 
-      console.log('Amount Widget: ', thisWidget);
-      console.log('consctuctor arguments: ', element);
+      // console.log('Amount Widget: ', thisWidget);
+      // console.log('consctuctor arguments: ', element);
     }
 
     getElements(element){
@@ -332,11 +332,11 @@
 
     init: function(){
       const thisApp = this;
-      console.log('*** App starting ***');
-      console.log('thisApp:', thisApp);
-      console.log('classNames:', classNames);
-      console.log('settings:', settings);
-      console.log('templates:', templates);
+      // console.log('*** App starting ***');
+      // console.log('thisApp:', thisApp);
+      // console.log('classNames:', classNames);
+      // console.log('settings:', settings);
+      // console.log('templates:', templates);
       thisApp.initData();
       thisApp.initMenu();
     },
