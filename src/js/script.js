@@ -330,7 +330,10 @@
     announce() {
       const thisWidget = this;
 
-      const event = new Event ('updated');
+      const event = new CustomEvent('updated', {
+        bubbles: true
+      });
+
       thisWidget.element.dispatchEvent(event);
     }
   }
@@ -372,6 +375,10 @@
       thisCart.dom.toggleTrigger.addEventListener('click', function() {
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
+
+      thisCart.dom.productList.addEventListener('updated', function() {
+        thisCart.update();
+      });
     }
 
     add(menuProduct) {
@@ -398,16 +405,16 @@
       thisCart.totalNumber = 0;
       thisCart.subtotalPrice = 0;
 
-      for (let product of thisCart.products) {
-        thisCart.subtotalPrice += product.price;
-        thisCart.totalNumber += product.amount;
+      for (let thisCartProduct of thisCart.products) {
+        thisCart.subtotalPrice += thisCartProduct.price;
+        thisCart.totalNumber += thisCartProduct.amount;
       }
 
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
 
-      console.log('totalNumber', thisCart.totalNumber); 
-      console.log('subtotalPrice', thisCart.subtotalPrice); 
-      console.log('totalPrice', thisCart.totalPrice); 
+      // console.log(thisCart.totalNumber);
+      // console.log(thisCart.subtotalPrice);
+      // console.log(thisCart.totalPrice);
 
       for (let key of thisCart.renderTotalsKeys) {
         for (let elem of thisCart.dom[key]) {
