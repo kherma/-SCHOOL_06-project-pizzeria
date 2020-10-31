@@ -1,63 +1,62 @@
-import {settings, select} from './settings.js';
-import Product from './components/Product.js';
-import Cart from './components/Cart.js';
+import { settings, select } from './settings.js'
+import Product from './components/Product.js'
+import Cart from './components/Cart.js'
 
 const app = {
-  initMenu: function() {
-      const thisApp = this;
-      // console.log('thisApp.data: ',thisApp.data);
+  initMenu: function () {
+    const thisApp = this
+    // console.log('thisApp.data: ',thisApp.data);
 
-      for (let productData in thisApp.data.products) {
-        new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
-      }
+    for (const productData in thisApp.data.products) {
+      // eslint-disable-next-line no-new
+      new Product(thisApp.data.products[productData].id, thisApp.data.products[productData])
+    }
   },
 
-  initData: function() {
-      const thisApp = this;
-      thisApp.data = {}; 
+  initData: function () {
+    const thisApp = this
+    thisApp.data = {}
 
-      const url = settings.db.url + '/' + settings.db.product;
-      
-      fetch(url)
-        .then(function(rawResponde){
-          return rawResponde.json();
-        })
-        .then(function(parsedResponde){
-          console.log('parsedResponde', parsedResponde);
+    const url = settings.db.url + '/' + settings.db.product
 
-          // save parsedResponde as thisApp.data.products
-          thisApp.data.products = parsedResponde;
-          
-          // execute initMenu method
-          thisApp.initMenu();
+    fetch(url)
+      .then(function (rawResponde) {
+        return rawResponde.json()
+      })
+      .then(function (parsedResponde) {
+        console.log('parsedResponde', parsedResponde)
 
-        });
-      console.log('thisApp.data', JSON.stringify(thisApp.data));
+        // save parsedResponde as thisApp.data.products
+        thisApp.data.products = parsedResponde
+
+        // execute initMenu method
+        thisApp.initMenu()
+      })
+    console.log('thisApp.data', JSON.stringify(thisApp.data))
   },
 
-  initCart: function() {
-      const thisApp = this;
+  initCart: function () {
+    const thisApp = this
 
-      const cartElem = document.querySelector(select.containerOf.cart);
-      thisApp.cart = new Cart(cartElem);
+    const cartElem = document.querySelector(select.containerOf.cart)
+    thisApp.cart = new Cart(cartElem)
 
-      thisApp.productList = document.querySelector(select.containerOf.menu);
+    thisApp.productList = document.querySelector(select.containerOf.menu)
 
-      thisApp.productList.addEventListener('add-to-cart', function(event){
-        app.cart.add(event.detail.product);
-      });
+    thisApp.productList.addEventListener('add-to-cart', function (event) {
+      app.cart.add(event.detail.product)
+    })
   },
 
-  init: function(){
-      const thisApp = this;
-      // console.log('*** App starting ***');
-      // console.log('thisApp:', thisApp);
-      // console.log('classNames:', classNames);
-      // console.log('settings:', settings);
-      // console.log('templates:', templates);
-      thisApp.initData();
-      thisApp.initCart();
-  },
-};
-app.init();
-
+  init: function () {
+    const thisApp = this
+    // console.log('*** App starting ***');
+    // console.log('thisApp:', thisApp);
+    // console.log('classNames:', classNames);
+    // console.log('settings:', settings);
+    // console.log('templates:', templates);
+    thisApp.initData()
+    thisApp.initCart()
+  }
+}
+app.init()
