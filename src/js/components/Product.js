@@ -13,7 +13,6 @@ class Product {
     thisProduct.initOrderForm()
     thisProduct.initAmountWidget()
     thisProduct.processOrder()
-    // console.log('new Product:', thisProduct);
   }
 
   renderInMenu () {
@@ -73,7 +72,6 @@ class Product {
 
   initOrderForm () {
     const thisProduct = this
-    // console.log('initOrderForm: ', thisProduct);
     thisProduct.form.addEventListener('submit', function (event) {
       event.preventDefault()
       thisProduct.processOrder()
@@ -94,11 +92,9 @@ class Product {
 
   processOrder () {
     const thisProduct = this
-    // console.log('processOrder: ', thisProduct);
 
     /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
     const formData = utils.serializeFormToObject(thisProduct.form)
-    // console.log('formData: ', formData);
 
     thisProduct.params = {}
 
@@ -134,7 +130,6 @@ class Product {
 
         // Module 8.6, Find images
         const optionImages = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId)
-        // console.log(optionImages);
 
         // Add to or remove from image the acvtive class
         if (optionSelected) {
@@ -177,8 +172,6 @@ class Product {
 
     thisProduct.name = thisProduct.data.name
     thisProduct.amount = thisProduct.amountWidget.value
-
-    //   app.cart.add(thisProduct);
 
     const event = new CustomEvent('add-to-cart', {
       bubbles: true,
