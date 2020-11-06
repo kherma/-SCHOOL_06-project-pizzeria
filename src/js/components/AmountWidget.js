@@ -8,9 +8,6 @@ class AmountWidget {
     thisWidget.value = settings.amountWidget.defaultValue
     thisWidget.setValue(thisWidget.input.value)
     thisWidget.initActions()
-
-    // console.log('Amount Widget: ', thisWidget);
-    // console.log('consctuctor arguments: ', element);
   }
 
   getElements (element) {

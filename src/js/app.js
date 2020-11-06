@@ -21,13 +21,6 @@ const app = {
     }
 
     thisApp.activatePage(pageMatchingHash)
-    // for (const page of thisApp.pages) {
-    //   if (page.id === idFromHash) {
-    //     thisApp.activatePage(idFromHash)
-    //   } else {
-    //     thisApp.activatePage(thisApp.pages[0].id)
-    //   }
-    // }
 
     for (const link of thisApp.navLinks) {
       link.addEventListener('click', function (event) {
@@ -69,7 +62,6 @@ const app = {
 
   initMenu: function () {
     const thisApp = this
-    // console.log('thisApp.data: ',thisApp.data);
 
     for (const productData in thisApp.data.products) {
       // eslint-disable-next-line no-new
@@ -111,11 +103,6 @@ const app = {
 
   init: function () {
     const thisApp = this
-    // console.log('*** App starting ***');
-    // console.log('thisApp:', thisApp);
-    // console.log('classNames:', classNames);
-    // console.log('settings:', settings);
-    // console.log('templates:', templates);
     thisApp.initPages()
     thisApp.initData()
     thisApp.initCart()
