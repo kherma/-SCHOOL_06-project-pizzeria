@@ -206,7 +206,7 @@
   "event": [
     {
       "id": 1,
-      "date": "2020-11-24",
+      "date": "2020-12-05",
       "hour": "12:30",
       "table": 1,
       "repeat": false,
@@ -216,9 +216,9 @@
     },
     {
       "id": 2,
-      "date": "2020-11-12",
+      "date": "2020-12-02",
       "hour": "12:00",
-      "table": 3,
+      "table": 2,
       "repeat": "daily",
       "duration": 3,
       "ppl": 3,
@@ -226,19 +226,19 @@
     },
     {
       "id": 3,
-      "date": "2020-11-12",
+      "date": "2020-12-02",
       "hour": "18:00",
-      "table": 1,
+      "table": 2,
       "repeat": "daily",
-      "duration": 3,
+      "duration": 2,
       "ppl": 3,
       "starters": ["bread", "lemonWater"]
     },
     {
       "id": 4,
-      "date": "2020-11-12",
+      "date": "2020-12-02",
       "hour": "12:00",
-      "table": 1,
+      "table": 3,
       "repeat": "daily",
       "duration": 3,
       "ppl": 3,
@@ -246,22 +246,22 @@
     },
     {
       "id": 5,
-      "date": "2020-11-12",
-      "hour": "12:00",
-      "table": 2,
+      "date": "2020-12-02",
+      "hour": "17:00",
+      "table": 3,
       "repeat": "daily",
-      "duration": 3,
+      "duration": 2,
       "ppl": 3,
       "starters": ["lemonWater"]
     }
   ],
   "booking": [{
     "id": 1,
-    "date": "2020-11-26",
-    "hour": "18:00",
+    "date": "2020-12-02",
+    "hour": "16:00",
     "table": 1,
     "repeat": false,
-    "duration": 3,
+    "duration": 1,
     "ppl": 3,
     "starters": []
   }]
