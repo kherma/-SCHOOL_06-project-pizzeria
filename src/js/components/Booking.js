@@ -46,17 +46,14 @@ class Booking {
         ])
       })
       .then(function ([bookings, eventsCurrent, eventsRepeat]) {
-        console.log(bookings)
-        console.log(eventsCurrent)
-        console.log(eventsRepeat)
+        // console.log(bookings)
+        // console.log(eventsCurrent)
+        // console.log(eventsRepeat)
         thisBooking.parseData(bookings, eventsCurrent, eventsRepeat)
       })
   }
 
   parseData (bookings, eventsCurrent, eventsRepeat) {
-    console.log(bookings)
-    console.log(eventsCurrent)
-    console.log(eventsRepeat)
     const thisBooking = this
     thisBooking.booked = {}
     for (const item of eventsCurrent) {
@@ -113,12 +110,11 @@ class Booking {
         !allAvailable &&
         thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)) {
         table.classList.add(classNames.booking.tableBooked)
-        table.classList.remove(classNames.booking.selected)
       } else {
         table.classList.remove(classNames.booking.tableBooked)
-        table.classList.remove(classNames.booking.selected)
       }
     }
+    // console.log(thisBooking.booked)
   }
 
   render (element) {
@@ -142,14 +138,27 @@ class Booking {
     thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper)
     thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper)
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables)
+    thisBooking.dom.phone = document.querySelector(select.booking.phoneBooking)
+    thisBooking.dom.address = document.querySelector(select.booking.addressBooking)
     thisBooking.dom.starters = []
   }
 
   selectTable () {
     const thisBooking = this
-    // const orderconf = document.querySelector('.order-confirmation')
-    // console.log(orderconf.children)
+
     const tables = document.querySelectorAll(select.booking.tables)
+
+    // Deselect table on hour change
+    thisBooking.dom.hourPicker.addEventListener('updated', function () {
+      tables.forEach(table => table.classList.remove(classNames.booking.selected))
+    })
+
+    // Deselect table on date change
+    thisBooking.dom.datePicker.addEventListener('updated', function () {
+      tables.forEach(table => table.classList.remove(classNames.booking.selected))
+    })
+
+    // Select clicked table
     tables.forEach(table => table.addEventListener('click', function (event) {
       if (!event.target.classList.contains(classNames.booking.tableBooked)) {
         tables.forEach(table => table.classList.remove('selected'))
@@ -160,15 +169,35 @@ class Booking {
     }))
   }
 
+  checkIfTableBooked (tableNum = false) {
+    const thisBooking = this
+    if (!tableNum) {
+      console.log('Choose the table first!')
+      return false
+    }
+    const table = tableNum
+    const date = thisBooking.datePicker.value
+    const time = utils.hourToNumber(thisBooking.hourPicker.value)
+    const hoursAmount = thisBooking.hoursAmount.value
+    for (let i = time; i <= time + hoursAmount; i += 0.5) {
+      if (thisBooking.booked[date][i]) {
+        if (thisBooking.booked[date][i].includes(table)) {
+          console.log(`Table ${table} booked at ${i}`)
+          return false
+        }
+      }
+    }
+    return true
+  }
+
   sendReservation () {
     const thisBooking = this
     const url = settings.db.url + '/' + settings.db.booking
     document.getElementsByName('starter').forEach(starter => starter.checked ? thisBooking.dom.starters.push(starter.value) : '')
 
     const reservation = {
-      // id: 'test',
-      // adress: thisBooking.dom.address.value,
-      // phone: thisBooking.dom.phone.value,
+      adress: thisBooking.dom.address.value,
+      phone: thisBooking.dom.phone.value,
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
       table: thisBooking.dom.selectTable,
@@ -177,7 +206,6 @@ class Booking {
       ppl: thisBooking.peopleAmount.value,
       starters: thisBooking.dom.starters
     }
-    console.log(reservation)
 
     const options = {
       method: 'POST',
@@ -204,11 +232,12 @@ class Booking {
     thisBooking.dom.wrapper.addEventListener('updated', function () {
       thisBooking.updateDOM()
     })
-    document.querySelector('.bitch').addEventListener('click', function (event) {
-      // event.preventDefault()
-      thisBooking.sendReservation()
-      thisBooking.getData()
-      thisBooking.updateDOM()
+    document.querySelector('.btn-submit-booking').addEventListener('click', function () {
+      if (!thisBooking.checkIfTableBooked(thisBooking.dom.selectTable)) return
+      console.log('Sent')
+      // thisBooking.sendReservation()
+      // thisBooking.getData()
+      // thisBooking.updateDOM()
     })
   }
 }
