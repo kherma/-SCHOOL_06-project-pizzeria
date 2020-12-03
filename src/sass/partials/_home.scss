@@ -1,3 +1,52 @@
-// #cart {
-//   display: none;
-// }
+.home-page {
+  margin: ($base-size * 3.5) auto;
+  padding: ($base-size * 3) ($base-size * 4);
+  background: $color-light;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+}
+
+.banner {
+  margin-bottom: ($base-size * 6);
+  display: grid;
+  grid-template-areas: 
+    "order booking"
+    "hours hours"
+  ;
+  
+  .order-page {
+    grid-area: order;
+    background-color: lightcoral;
+    padding: ($base-size * 3);
+    border-radius: 5px;
+    margin: 3px;
+  }
+
+  .booking-page {
+    grid-area: booking;
+    background-color: lightgreen;
+    padding: ($base-size * 3);
+    border-radius: 5px;
+    margin: 3px;
+
+  }
+
+  .opening-hours {
+    grid-area: hours;
+    background-color: lightsalmon;
+    padding: ($base-size * 1.8);
+    border-radius: 5px;
+    margin: 3px;
+  }
+}
+
+.carousel {
+  margin-bottom: ($base-size * 6);
+  background-color: lightseagreen;
+  height: 270px;
+}
+
+.gallery {
+  background-color: linen;
+  height: 400px;
+}
