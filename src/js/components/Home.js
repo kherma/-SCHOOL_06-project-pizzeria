@@ -4,6 +4,15 @@ class Home {
   constructor (element) {
     const thisHome = this
     thisHome.render(element)
+    thisHome.hideElements()
+  }
+
+  hideElements () {
+    ['hashchange', 'load'].forEach(elem =>
+      window.addEventListener(elem, function (event) {
+        document.querySelector('#cart').style.display = window.location.hash === '#/home' ? 'none' : ''
+      })
+    )
   }
 
   render (element) {
