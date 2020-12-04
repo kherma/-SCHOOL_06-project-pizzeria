@@ -9,44 +9,34 @@
 .banner {
   margin-bottom: ($base-size * 6);
   display: grid;
-  grid-template-areas: 
-    "order booking"
-    "hours hours"
+  grid-template-areas: "order booking" "hours hours"
   ;
   
-  .order-page {
-    grid-area: order;
-    background-color: lightcoral;
-    padding: ($base-size * 3);
-    border-radius: 5px;
-    margin: 3px;
+  .order-item {
+    background: url(../..//images/assets-home-page/pizza-1.jpg) no-repeat center center/cover;
+    @include banner-items-style(order);
+    @include banner-text-animation();
   }
 
-  .booking-page {
-    grid-area: booking;
-    background-color: lightgreen;
-    padding: ($base-size * 3);
-    border-radius: 5px;
-    margin: 3px;
-
+  .booking-item {
+    background: url(../..//images/assets-home-page/pizza-2.jpg) no-repeat center center/cover;
+    @include banner-items-style(booking);
+    @include banner-text-animation();
   }
 
-  .opening-hours {
-    grid-area: hours;
-    background-color: lightsalmon;
-    padding: ($base-size * 1.8);
-    border-radius: 5px;
-    margin: 3px;
+  .hours-item  {
+    background-color: $color-main;
+    padding: $base-size * 2;
+    @include banner-items-style(hours);
+    flex-direction: column;
+
+    .item-text-main {
+      @include banner-hours-text($font-header);
+
+    }
+
+    .item-text-sub {
+      @include banner-hours-text($font-text);
+    }
   }
-}
-
-.carousel {
-  margin-bottom: ($base-size * 6);
-  background-color: lightseagreen;
-  height: 270px;
-}
-
-.gallery {
-  background-color: linen;
-  height: 400px;
 }

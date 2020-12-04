@@ -4,16 +4,20 @@ class Home {
   constructor (element) {
     const thisHome = this
     thisHome.render(element)
-    // thisHome.hideElements()
+    thisHome.hideElements()
   }
 
-  // hideElements () {
-  //   ['hashchange', 'load'].forEach(elem =>
-  //     window.addEventListener(elem, function (event) {
-  //       document.querySelector('#cart').style.display = window.location.hash === '#/home' ? 'none' : ''
-  //     })
-  //   )
-  // }
+  hideElements () {
+    ['hashchange', 'load'].forEach(elem =>
+      window.addEventListener(elem, function (event) {
+        ['#cart', '.main-nav'].forEach(selector => {
+          document.querySelector(selector).style.transition = 'all 0.2s ease-in'
+          document.querySelector(selector).style.opacity = window.location.hash === '#/home' ? 0 : 1
+          document.querySelector(selector).style.visibility = window.location.hash === '#/home' ? 'hidden' : 'visible'
+        })
+      })
+    )
+  }
 
   render (element) {
     const thisHome = this
