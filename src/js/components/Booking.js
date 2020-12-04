@@ -114,7 +114,7 @@ class Booking {
         table.classList.remove(classNames.booking.tableBooked)
       }
     }
-    // console.log(thisBooking.booked)
+    thisBooking.showOccupationOnSlider(thisBooking.datePicker.value)
   }
 
   render (element) {
@@ -141,6 +141,39 @@ class Booking {
     thisBooking.dom.phone = document.querySelector(select.booking.phoneBooking)
     thisBooking.dom.address = document.querySelector(select.booking.addressBooking)
     thisBooking.dom.starters = []
+  }
+
+  showOccupationOnSlider (date) {
+    const thisBooking = this
+    const gradientString = []
+    const gradientColors = []
+    thisBooking.occupation = {}
+
+    for (let i = 12; i <= 24; i += 0.5) {
+      if (thisBooking.booked[date][i]) {
+        thisBooking.occupation[i] = thisBooking.booked[date][i].length
+      } else {
+        thisBooking.occupation[i] = 1
+      }
+    }
+
+    for (let i = 12; i <= 24; i += 0.5) {
+      gradientString.push(thisBooking.occupation[i])
+    }
+
+    for (const [i, elem] of gradientString.entries()) {
+      if (elem === 3) {
+        gradientColors.push(`red ${i * 4}%, red ${i * 4 + 4}%`)
+      }
+      if (elem === 2) {
+        gradientColors.push(`yellow ${i * 4}%, yellow ${i * 4 + 4}%`)
+      }
+      if (elem === 1) {
+        gradientColors.push(`green ${i * 4}%, green ${i * 4 + 4}%`)
+      }
+    }
+
+    document.querySelector('.rangeSlider').style.backgroundImage = `linear-gradient(90deg, ${gradientColors.join(', ')})`
   }
 
   selectTable () {
@@ -235,9 +268,9 @@ class Booking {
     document.querySelector('.btn-submit-booking').addEventListener('click', function () {
       if (!thisBooking.checkIfTableBooked(thisBooking.dom.selectTable)) return
       console.log('Sent')
-      // thisBooking.sendReservation()
-      // thisBooking.getData()
-      // thisBooking.updateDOM()
+      thisBooking.sendReservation()
+      thisBooking.getData()
+      thisBooking.updateDOM()
     })
   }
 }
