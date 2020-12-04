@@ -50,8 +50,8 @@ export const select = {
     deliveryFee: '.cart__order-delivery .cart__order-price-sum strong',
     form: '.cart__order',
     formSubmit: '.cart__order [type="submit"]',
-    phone: '[name="phone"]',
-    address: '[name="address"]'
+    phone: '[name="phone-cart"]',
+    address: '[name="address-cart"]'
   },
   cartProduct: {
     amountWidget: '.widget-amount',
@@ -62,7 +62,9 @@ export const select = {
   booking: {
     peopleAmount: '.people-amount',
     hoursAmount: '.hours-amount',
-    tables: '.floor-plan .table'
+    tables: '.floor-plan .table',
+    phoneBooking: '[name="phone"]',
+    addressBooking: '[name="address"]'
   },
   nav: {
     links: '.main-nav a'
@@ -79,7 +81,8 @@ export const classNames = {
   },
   booking: {
     loading: 'loading',
-    tableBooked: 'booked'
+    tableBooked: 'booked',
+    selected: 'selected'
   },
   nav: {
     active: 'active'

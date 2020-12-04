@@ -173,6 +173,16 @@
       }
 
     }
+
+    &.selected {
+      background-color: lightcoral;
+      border: 5px solid #fff;
+      box-shadow: 3px 3px 10px #000;
+    }
+
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 
   [data-table="1"] {
