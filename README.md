@@ -1,5 +1,4 @@
 # -SCHOOL_06-project-pizzeria
 
-## Practice Project - course project;
-## Side Project - personal project;
 ## School Project - homework project;
+## You can cehck it here: https://murmuring-wave-46799.herokuapp.com/?date=2020-12-04&hour=12&people=1&hours=1&phone=&address=#/home
