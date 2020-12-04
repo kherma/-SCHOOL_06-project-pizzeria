@@ -2,15 +2,14 @@ import { settings, select, classNames } from './settings.js'
 import Product from './components/Product.js'
 import Booking from './components/Booking.js'
 import Cart from './components/Cart.js'
+import Home from './components/Home.js'
 
 const app = {
   initPages: function () {
     const thisApp = this
     thisApp.pages = document.querySelector(select.containerOf.pages).children
     thisApp.navLinks = document.querySelectorAll(select.nav.links)
-
     const idFromHash = window.location.hash.replace('#/', '')
-
     let pageMatchingHash = thisApp.pages[0].id
 
     for (const page of thisApp.pages) {
@@ -19,7 +18,7 @@ const app = {
         break
       }
     }
-
+    window.location.hash = `#/${pageMatchingHash}`
     thisApp.activatePage(pageMatchingHash)
 
     for (const link of thisApp.navLinks) {
@@ -52,6 +51,21 @@ const app = {
         link.getAttribute('href') === `#${pageId}`
       )
     }
+  },
+
+  initHome: function () {
+    const thisApp = this
+    thisApp.homeElement = document.querySelector(select.containerOf.home)
+    thisApp.booking = new Home(thisApp.homeElement)
+    const links = document.querySelectorAll('.banner-links')
+    links.forEach(link => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault()
+        const id = link.getAttribute('href').replace('#', '')
+        thisApp.activatePage(id)
+        window.location.hash = `#/${id}`
+      })
+    })
   },
 
   initBooking: function () {
@@ -107,6 +121,7 @@ const app = {
     thisApp.initData()
     thisApp.initCart()
     thisApp.initBooking()
+    thisApp.initHome()
   }
 }
 app.init()
