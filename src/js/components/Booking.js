@@ -151,14 +151,10 @@ class Booking {
 
     for (let i = 12; i <= 24; i += 0.5) {
       if (thisBooking.booked[date][i]) {
-        thisBooking.occupation[i] = thisBooking.booked[date][i].length
+        gradientString.push(thisBooking.booked[date][i].length)
       } else {
-        thisBooking.occupation[i] = 1
+        gradientString.push(1)
       }
-    }
-
-    for (let i = 12; i <= 24; i += 0.5) {
-      gradientString.push(thisBooking.occupation[i])
     }
 
     for (const [i, elem] of gradientString.entries()) {

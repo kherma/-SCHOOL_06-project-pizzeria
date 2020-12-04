@@ -36,7 +36,7 @@ $base-size: 12px;
     transition: $transition ease-in-out;
     overflow: hidden;
     
-    & > * {
+    * {
       color: $color-light;
       margin: 10px;
       font-size: 2rem;
@@ -60,7 +60,7 @@ $base-size: 12px;
     }
 
     &:hover {
-      & > * {
+      * {
         visibility: visible;
         opacity: 1;
         z-index: 2;
