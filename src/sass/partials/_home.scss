@@ -116,3 +116,16 @@
     }
   }
 }
+
+.gallery {
+  margin: 100px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  
+  .grid-image {
+    position: relative;
+    border-radius: 5px;
+    height: 100px;
+  }
+}
